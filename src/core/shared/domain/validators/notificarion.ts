@@ -28,9 +28,7 @@ export class Notification {
   }
 
   copyErrors(notification: Notification) {
-    notification.errors.forEach((value, key) => {
-      this.errors.set(value as string, key)
-    })
+    notification.errors.forEach((value, key) => this.setError(value, key))
   }
 
   toJSON() {
