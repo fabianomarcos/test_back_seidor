@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Vehicle {
+  vehicle_id String   @id @default(uuid())
+  plate      String
+  brand      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  allocations Vehicle_Allocation[]
+
+  @@map("vehicles")
+}
+
+model Driver {
+  driver_id  String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  allocations Vehicle_Allocation[]
+
+  @@map("drivers")
+}
+
+model Vehicle_Allocation {
+  allocation_id String    @id @default(uuid())
+  start_date    DateTime
+  end_date      DateTime?
+  reason        String
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  vehicle    Vehicle @relation(fields: [vehicle_id], references: [vehicle_id])
+  vehicle_id String
+  driver     Driver? @relation(fields: [driver_id], references: [driver_id])
+  driver_id  String?
+
+  @@index([vehicle_id])
+  @@index([driver_id])
+  @@map("allocations")
+}
