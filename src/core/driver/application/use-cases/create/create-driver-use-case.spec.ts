@@ -1,4 +1,4 @@
-import { DriverInMemoryRepository } from '../../infra/db/in-memory/driver-in-memory.repository'
+import { DriverInMemoryRepository } from '../../../infra/db/in-memory/driver-in-memory.repository'
 import { CreateDriverUseCase } from './create-driver.use-case'
 
 describe('CreateDriverUseCase unit tests', () => {

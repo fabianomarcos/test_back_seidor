@@ -1,7 +1,7 @@
 import { setupPrisma } from '@/core/shared/infra/testing/helpers'
-import { DriverPrismaRepository } from '../../infra/db/prisma/driver-prisma.repository'
+import { DriverPrismaRepository } from '../../../infra/db/prisma/driver-prisma.repository'
 import { CreateDriverUseCase } from './create-driver.use-case'
-import { DriverId } from '../../domain/driver.aggregate'
+import { DriverId } from '../../../domain/driver.aggregate'
 
 describe('CreateDriverUseCase Integration Tests', () => {
   let usecase: CreateDriverUseCase
