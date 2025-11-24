@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/shared/server/index.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/shared/server/index.js",
     "test": "dotenv -e .env.test -- npx prisma generate && dotenv -e .env.test -- npx prisma db push --force-reset && jest",
     "test_watch": "dotenv -e .env.test -- npx prisma generate && dotenv -e .env.test -- npx prisma db push --force-reset && jest --watchAll"
   },
