@@ -27,6 +27,7 @@
     "noUncheckedSideEffectImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -34,6 +35,9 @@
       ],
       "@core/*": [
         "src/core/*"
+      ],
+      "@driver/*": [
+        "src/core/driver/*"
       ],
       "@validators/*": [
         "src/shared/domain/validators/*"
