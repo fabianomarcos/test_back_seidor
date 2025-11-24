@@ -1,10 +1,13 @@
-import { MaxLength } from 'class-validator'
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator'
 import { Driver } from './driver.aggregate'
 import { ClassValidatorFields } from '../../shared/domain/validators/class-validator-fields'
 import { Notification } from '../../shared/domain/validators/notification'
 
 export class DriverRules {
+  @MinLength(2, { groups: ['name'] })
+  @IsString({ groups: ['name'] })
   @MaxLength(255, { groups: ['name'] })
+  @IsNotEmpty({ groups: ['name'] })
   name!: string
 
   constructor(entity: Driver) {

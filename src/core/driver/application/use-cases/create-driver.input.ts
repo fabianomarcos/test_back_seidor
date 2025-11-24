@@ -9,9 +9,9 @@ export class CreateDriverInput {
   @IsNotEmpty()
   name!: string
 
-  constructor({ name }: CreateDriveInputConstructorProps) {
-    if (!name) return
-    this.name = name
+  constructor(props: CreateDriveInputConstructorProps) {
+    if (!props) return
+    this.name = props.name
   }
 }
 

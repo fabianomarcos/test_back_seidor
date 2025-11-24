@@ -24,4 +24,22 @@ describe('CreateDriverUseCase Integration Tests', () => {
       updated_at: output.updated_at,
     })
   })
+
+  it('should be return a Entity validation error', async () => {
+    await expect(() =>
+      usecase.execute({ name: 'd'.repeat(256) }),
+    ).rejects.toThrow('Entity Validation Error')
+    await expect(() => usecase.execute({ name: null } as any)).rejects.toThrow(
+      'Entity Validation Error',
+    )
+    await expect(() =>
+      usecase.execute({ name: undefined } as any),
+    ).rejects.toThrow('Entity Validation Error')
+    await expect(() => usecase.execute({ name: '' })).rejects.toThrow(
+      'Entity Validation Error',
+    )
+    await expect(() => usecase.execute({ name: 'a' })).rejects.toThrow(
+      'Entity Validation Error',
+    )
+  })
 })
