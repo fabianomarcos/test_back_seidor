@@ -5,12 +5,11 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  // url      = env("DATABASE_URL")
 }
 
 model Vehicle {
   vehicle_id String   @id @default(uuid())
-  plate      String
+  plate      String   @unique
   brand      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -22,7 +21,7 @@ model Vehicle {
 
 model Driver {
   driver_id  String   @id @default(uuid())
-  name       String   @unique
+  name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
