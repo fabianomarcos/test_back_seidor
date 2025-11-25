@@ -3,7 +3,7 @@ import { validUuid } from '@/shared/tests/constants'
 import { CreateDriverController } from './create-driver.controller'
 import { IUseCase } from '@/core/shared/application/use-case.interface'
 
-describe('CreateDriverController', () => {
+describe('GetByIdDriverController', () => {
   let controller: CreateDriverController
   let usecase: jest.Mocked<IUseCase<any, CreateDriverOutput>>
   let request: any

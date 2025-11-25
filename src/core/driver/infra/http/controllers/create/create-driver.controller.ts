@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 
 import { IUseCase } from '@/core/shared/application/use-case.interface'
-import { CreateDriverOutput } from '../../../application/use-cases/create/create-driver.use-case'
-import { CreateDriverInput } from '../../../application/use-cases/create/create-driver.input'
-import { CreateDriverDto } from '../dtos/create-driver.dto'
-import { DriverPresenter } from '../presenters/driver.presenter'
+import { CreateDriverOutput } from '../../../../application/use-cases/create/create-driver.use-case'
+import { CreateDriverInput } from '../../../../application/use-cases/create/create-driver.input'
+import { CreateDriverDto } from '../../dtos/create-driver.dto'
+import { DriverPresenter } from '../../presenters/driver.presenter'
 
 export class CreateDriverController {
   constructor(

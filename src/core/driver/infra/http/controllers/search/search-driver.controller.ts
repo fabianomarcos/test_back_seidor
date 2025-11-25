@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 
 import { IUseCase } from '@/core/shared/application/use-case.interface'
-import { DriverCollectionPresenter } from '../presenters/driver.presenter'
-import { SearchDriversDto } from '../dtos/search-driver.dto'
+import { DriverCollectionPresenter } from '../../presenters/driver.presenter'
+import { SearchDriversDto } from '../../dtos/search-driver.dto'
 import {
   ListDriversInput,
   ListDriversOutput,
