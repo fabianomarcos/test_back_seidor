@@ -19,16 +19,14 @@ export class SearchVehicleAllocationController {
   search = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const query = request.query
+
       const filter = {
         ...(query.start_date && { start_date: query.start_date }),
         ...(query.end_date && { end_date: query.end_date }),
       }
 
       const output = await this.usecase.execute({
-        page: query.page && +query.page,
-        per_page: query.per_page && +query.per_page,
-        sort: query.sort,
-        sort_dir: query.sort_dir,
+        ...query,
         filter,
       } as SearchVehiclesAllocationDto)
       const presenter = new VehicleAllocationCollectionPresenter(output)

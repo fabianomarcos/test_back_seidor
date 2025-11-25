@@ -18,7 +18,6 @@ export class UpdateVehicleInputWithoutId {
   start_date: Date
 
   @IsDate()
-  @IsNotEmpty()
   end_date: Date | null
 }
 

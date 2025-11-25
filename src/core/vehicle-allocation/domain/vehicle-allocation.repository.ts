@@ -86,5 +86,5 @@ export interface IVehicleAllocationRepository
 export interface IBodyFindOneAllocation {
   drive_id?: string
   vehicle_id?: string
-  filter: { key: string; value: string | boolean | null | number }
+  filter?: { key: string; value: string | boolean | null | number }
 }

@@ -1,15 +1,15 @@
 import { Driver } from '@/core/driver/domain/driver.aggregate'
 import { DriverInMemoryRepository } from '@/core/driver/infra/db/in-memory/driver-in-memory.repository'
-import { ListDriversUseCase } from './list-drivers.use-case'
+import { ListDriverUseCase } from './list-drivers.use-case'
 import { DriverOutputMapper } from '../common/driver-output'
 
 describe('GetDriverUseCase Unit Tests', () => {
-  let usecase: ListDriversUseCase
+  let usecase: ListDriverUseCase
   let repository: DriverInMemoryRepository
 
   beforeEach(async () => {
     repository = new DriverInMemoryRepository()
-    usecase = new ListDriversUseCase(repository)
+    usecase = new ListDriverUseCase(repository)
   })
 
   it('should list all drivers sorted by created_at when input param is empty', async () => {

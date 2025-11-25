@@ -1,13 +1,15 @@
-import { VehicleId } from '@/core/vehicle/domain/vehicle.aggregate'
+import { Vehicle, VehicleId } from '@/core/vehicle/domain/vehicle.aggregate'
 import { AggregateRoot } from '../../shared/domain/aggregate-root'
 import { Uuid } from '../../shared/domain/value-objects/uuid.vo'
 import { VehicleAllocationFakeBuilder } from './vehicle-allocation-fake.builder'
-import { VehicleAllocationValidatorFactory } from './vehicle-allocation.validator'
-import { DriverId } from '@/core/driver/domain/driver.aggregate'
+import { Driver, DriverId } from '@/core/driver/domain/driver.aggregate'
 
 export type VehicleAllocationConstructorProps = {
+  id: string
   allocation_id?: VehicleAllocationId
   vehicle_id: VehicleId
+  driver: Driver
+  vehicle: Vehicle
   driver_id: DriverId
   reason: string
   start_date: Date
@@ -27,9 +29,12 @@ export type VehicleAllocationCreateCommand = {
 export class VehicleAllocationId extends Uuid {}
 
 export class VehicleAllocation extends AggregateRoot {
+  id: string
   allocation_id: VehicleAllocationId
   vehicle_id: VehicleId
+  vehicle: Vehicle
   driver_id: DriverId
+  driver: Driver
   reason: string
   start_date: Date
   end_date?: Date | null
@@ -39,10 +44,13 @@ export class VehicleAllocation extends AggregateRoot {
   constructor(props: VehicleAllocationConstructorProps) {
     super()
     this.allocation_id = props.allocation_id || new VehicleAllocationId()
-    this.vehicle_id = props.vehicle_id || new VehicleId()
-    this.driver_id = props.driver_id || new DriverId()
+    this.id = props.id
+    this.vehicle_id = props.vehicle_id
+    this.driver_id = props.driver_id
+    this.driver = props.driver
+    this.vehicle = props.vehicle
     this.reason = props.reason
-    this.start_date = props.start_date || new Date()
+    this.start_date = props.start_date
     this.end_date = props.end_date || null
     this.created_at = props.created_at || new Date()
     this.updated_at = props.updated_at || new Date()
@@ -53,7 +61,7 @@ export class VehicleAllocation extends AggregateRoot {
   }
 
   static create(props: VehicleAllocationCreateCommand) {
-    const vehicle = new VehicleAllocation(props)
+    const vehicle = new VehicleAllocation(props as any)
     vehicle.validate()
     return vehicle
   }
@@ -84,8 +92,8 @@ export class VehicleAllocation extends AggregateRoot {
   }
 
   validate(fields?: string[]) {
-    const validator = VehicleAllocationValidatorFactory.create()
-    return validator.validate(this.notification, this, fields)
+    // const validator = VehicleAllocationValidatorFactory.create()
+    // return validator.validate(this.notification, this, fields)
   }
 
   static fake() {
@@ -94,7 +102,7 @@ export class VehicleAllocation extends AggregateRoot {
 
   toJSON() {
     return {
-      allocation_id: this.allocation_id.value,
+      id: this.allocation_id.value,
       vehicle_id: this.vehicle_id.value,
       driver_id: this.driver_id.value,
       reason: this.reason,

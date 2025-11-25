@@ -18,11 +18,15 @@ export class UpdateVehicleAllocationController {
   update = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const params = request.params as { id: string }
-      const body = request.body as UpdateVehicleDto
+      const body: UpdateVehicleDto = request.body
       const output = await this.usecase.execute({
-        ...body,
+        driver_id: body.driver_id,
+        end_date: body.end_date ? new Date(body.end_date) : new Date(),
+        reason: body.reason,
+        start_date: body.start_date,
+        vehicle_id: body.vehicle_id,
         id: params.id,
-      } as any)
+      })
       const presenter = new VehicleAllocationPresenter(output)
       return response.status(200).json(presenter)
     } catch (error: any) {

@@ -1,4 +1,10 @@
-import { IsDate, IsNotEmpty, IsString, validateSync } from 'class-validator'
+import {
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  validateSync,
+} from 'class-validator'
 
 export type UpdateVehicleAllocationInputConstructorProps = {
   id: string
@@ -15,24 +21,24 @@ export class UpdateVehicleAllocationInput {
   id: string
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   driver_id: string
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   vehicle_id: string
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   reason: string
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
   start_date: Date
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
-  end_date: Date
+  end_date: Date | null
 
   constructor(props?: UpdateVehicleAllocationInputConstructorProps) {
     if (!props) return
