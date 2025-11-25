@@ -12,7 +12,7 @@ import { DriverOutput, DriverOutputMapper } from '../common/driver-output'
 import {
   PaginationOutput,
   PaginationOutputMapper,
-} from '../../pagination-output'
+} from '../../../../shared/application/pagination-output'
 
 export class ListDriversUseCase
   implements IUseCase<ListDriversInput, ListDriversOutput>
