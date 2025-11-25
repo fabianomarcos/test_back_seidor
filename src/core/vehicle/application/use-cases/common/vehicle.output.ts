@@ -11,7 +11,6 @@ export type VehicleOutput = {
 
 export class VehicleOutputMapper {
   static toOutput(entity: Vehicle): VehicleOutput {
-    console.log('VehicleOutputMapper: ', entity)
     const { vehicle_id, ...otherProps } = entity.toJSON()
     return {
       id: vehicle_id,

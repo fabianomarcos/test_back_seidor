@@ -57,7 +57,6 @@ describe('GetVehicleUseCase Unit Tests', () => {
     })
 
     const orderedVehicles = [vehicles[1], vehicles[2]] as Vehicle[]
-    console.log('orderedVehicles: ', orderedVehicles)
 
     expect(output).toStrictEqual({
       items: orderedVehicles.map(VehicleOutputMapper.toOutput),

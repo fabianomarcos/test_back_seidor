@@ -13,6 +13,7 @@ import {
   PaginationOutput,
   PaginationOutputMapper,
 } from '@/core/shared/application/pagination-output'
+import { SearchParamsConstructorProps } from '@/core/shared/domain/repository/search-params'
 
 export class ListVehiclesUseCase
   implements IUseCase<ListVehiclesInput, ListVehiclesOutput>
@@ -20,7 +21,9 @@ export class ListVehiclesUseCase
   constructor(private repository: IVehicleRepository) {}
 
   async execute(input: ListVehiclesInput): Promise<ListVehiclesOutput> {
-    const params = new VehicleSearchParams(input)
+    const params = VehicleSearchParams.create(
+      input as Omit<SearchParamsConstructorProps<VehicleFilter>, 'filter'>,
+    )
     const searchResult = await this.repository.search(params)
     return this.toOutput(searchResult)
   }

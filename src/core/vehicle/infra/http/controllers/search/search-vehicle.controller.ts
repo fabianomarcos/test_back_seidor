@@ -15,8 +15,20 @@ export class SearchVehicleController {
 
   search = async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const searchParams: SearchVehiclesDto = request.query
-      const output = await this.usecase.execute(searchParams)
+      const query = request.query
+      const filter = {
+        ...(query.color && { color: query.color }),
+        ...(query.plate && { plate: query.plate }),
+        ...(query.brand && { brand: query.brand }),
+      }
+
+      const output = await this.usecase.execute({
+        page: query.page && +query.page,
+        per_page: query.per_page && +query.per_page,
+        sort: query.sort,
+        sort_dir: query.sort_dir,
+        filter,
+      } as SearchVehiclesDto)
       const presenter = new VehicleCollectionPresenter(output)
       return response.status(200).json(presenter)
     } catch (error) {
