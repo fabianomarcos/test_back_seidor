@@ -96,6 +96,9 @@ export class VehicleAllocationFakeBuilder<TBuild = any> {
           ...(this._created_at && {
             created_at: this.callFactory(this._created_at, index),
           }),
+          driver: this.callFactory(this.driver_id, index),
+          id: this.callFactory(this._allocation_id, index),
+          vehicle: this.callFactory(this.vehicle_id, index),
           ...(this._updated_at && {
             updated_at: this.callFactory(this._updated_at, index),
           }),
