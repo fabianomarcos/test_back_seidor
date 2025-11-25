@@ -1,5 +1,6 @@
 import { InvalidArgumentError } from '@/core/shared/domain/errors/invalid-argument.error'
 import { NotFoundError } from '@/core/shared/domain/errors/not-found.error'
+import { UniqueEntityError } from '@/core/shared/domain/errors/unique-entity.error'
 import {
   EntityValidationError,
   LoadEntityError,
@@ -32,6 +33,9 @@ export function errorHandler(
 
   if (err instanceof InvalidUuidError)
     return res.status(400).json({ message: err.message })
+
+  if (err instanceof UniqueEntityError)
+    return res.status(409).json({ message: err.message })
 
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     return res.status(400).json({
