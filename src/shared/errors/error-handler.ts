@@ -15,7 +15,6 @@ export function errorHandler(
   res: Response,
   next: NextFunction,
 ) {
-  console.log('errorHandler: ', err)
   if (err instanceof EntityValidationError)
     return res.status(400).json({ message: err.message, errors: err.error })
 
