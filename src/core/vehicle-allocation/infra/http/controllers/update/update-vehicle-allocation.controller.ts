@@ -7,7 +7,7 @@ import { UpdateVehicleAllocationOutput } from '@/core/vehicle-allocation/applica
 import { UpdateVehicleDto } from '../../dtos/update-vehicle-allocation.dto'
 import { UniqueEntityError } from '@/core/shared/domain/errors/unique-entity.error'
 
-export class UpdateVehicleController {
+export class UpdateVehicleAllocationController {
   constructor(
     private readonly usecase: IUseCase<
       UpdateVehicleAllocationInput,
