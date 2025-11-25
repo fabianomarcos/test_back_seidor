@@ -15,11 +15,11 @@ export class UpdateVehicleUseCase
     const vehicleId = new VehicleId(input.id)
     const vehicle = await this.vehicleRepo.findById(vehicleId)
 
-    if (!vehicle) {
-      throw new NotFoundError(input.id, Vehicle)
-    }
+    if (!vehicle) throw new NotFoundError(input.id, Vehicle)
 
     input.brand && vehicle.changeBrand(input.brand)
+    input.color && vehicle.changeColor(input.color)
+    input.plate && vehicle.changePlate(input.plate)
 
     if (vehicle.notification.hasErrors()) {
       throw new EntityValidationError(vehicle.notification.toJSON())

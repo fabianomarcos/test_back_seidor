@@ -58,7 +58,7 @@ export class Vehicle extends AggregateRoot {
     this.validate(['plate'])
   }
 
-  changePlateColor(color: string): void {
+  changeColor(color: string): void {
     this.color = color
     this.validate(['color'])
   }
