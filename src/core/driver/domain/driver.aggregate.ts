@@ -42,7 +42,6 @@ export class Driver extends AggregateRoot {
 
   changeName(name: string): void {
     this.name = name
-    this.updated_at = new Date()
     this.validate(['name'])
   }
 

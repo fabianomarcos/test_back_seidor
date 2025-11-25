@@ -5,6 +5,7 @@ import {
   LoadEntityError,
   SearchValidationError,
 } from '@/core/shared/domain/validators/validation.error'
+import { InvalidUuidError } from '@/core/shared/domain/value-objects/uuid.vo'
 import { Prisma } from '@/core/shared/infra/db/prisma/generated/prisma'
 import { NextFunction, Request, Response } from 'express'
 
@@ -28,6 +29,9 @@ export function errorHandler(
     return res.status(404).json({ message: err.message })
 
   if (err instanceof InvalidArgumentError)
+    return res.status(400).json({ message: err.message })
+
+  if (err instanceof InvalidUuidError)
     return res.status(400).json({ message: err.message })
 
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
