@@ -23,6 +23,10 @@ export class Notification {
     }
   }
 
+  clearErrors() {
+    this.errors.clear()
+  }
+
   hasErrors(): boolean {
     return this.errors.size > 0
   }
