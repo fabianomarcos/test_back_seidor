@@ -3,23 +3,19 @@ import {
   VehicleAllocation,
   VehicleAllocationId,
 } from './vehicle-allocation.aggregate'
+import { DriverId } from '@/core/driver/domain/driver.aggregate'
+import { VehicleId } from '@/core/vehicle/domain/vehicle.aggregate'
 
 type PropOrFactory<T> = T | ((index: number) => T)
 
-const chance = new Chance()
-
-const placaAntiga = () =>
-  `${chance.string({
-    length: 3,
-    pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-  })}-${chance.integer({ min: 1000, max: 9999 })}`
-
 export class VehicleAllocationFakeBuilder<TBuild = any> {
-  private _vehicle_id: PropOrFactory<VehicleAllocationId> | undefined =
+  private _allocation_id: PropOrFactory<VehicleAllocationId> | undefined =
     undefined
-  private _plate: PropOrFactory<string> = (_index) => placaAntiga()
-  private _color: PropOrFactory<string> = (_index) => new Chance().color()
-  private _brand: PropOrFactory<string> = (_index) => new Chance().name()
+  private _driver_id: PropOrFactory<DriverId> | undefined = undefined
+  private _vehicle_id: PropOrFactory<VehicleId> | undefined = undefined
+  private _reason: PropOrFactory<string> = (_index) => new Chance().word()
+  private _start_date: PropOrFactory<Date> | undefined = undefined
+  private _end_date: PropOrFactory<Date> | undefined = undefined
   private _created_at: PropOrFactory<Date> | undefined = undefined
   private _updated_at: PropOrFactory<Date> | undefined = undefined
 
@@ -33,32 +29,45 @@ export class VehicleAllocationFakeBuilder<TBuild = any> {
     return new VehicleAllocationFakeBuilder<VehicleAllocation[]>(countObjs)
   }
 
-  private chance: Chance.Chance
+  chance = new Chance()
 
   private constructor(countObjs: number = 1) {
     this.countObjs = countObjs
     this.chance = Chance()
   }
 
+  withInvalidReasonTooLong(value?: string) {
+    this._reason = value || this.chance.string({ length: 256 })
+    return this
+  }
+
   withVehicleAllocationId(valueOrFactory: PropOrFactory<VehicleAllocationId>) {
+    this._allocation_id = valueOrFactory
+    return this
+  }
+
+  withVehicleId(valueOrFactory: PropOrFactory<VehicleAllocationId>) {
     this._vehicle_id = valueOrFactory
     return this
   }
 
-  withBrand(valueOrFactory: PropOrFactory<string>) {
-    this._brand = valueOrFactory
+  withDriverId(valueOrFactory: PropOrFactory<VehicleAllocationId>) {
+    this._driver_id = valueOrFactory
     return this
   }
 
-  withPlate(valueOrFactory: PropOrFactory<string>) {
-    this._plate = valueOrFactory
+  withReason(valueOrFactory: PropOrFactory<string>) {
+    this._reason = valueOrFactory
     return this
   }
-  withColor(valueOrFactory: PropOrFactory<string>) {
-    this._color = valueOrFactory
+  withStartDate(valueOrFactory: PropOrFactory<Date>) {
+    this._start_date = valueOrFactory
     return this
   }
-
+  withEndDate(valueOrFactory: PropOrFactory<Date>) {
+    this._end_date = valueOrFactory
+    return this
+  }
   withCreatedAt(valueOrFactory: PropOrFactory<Date>) {
     this._created_at = valueOrFactory
     return this
@@ -69,32 +78,21 @@ export class VehicleAllocationFakeBuilder<TBuild = any> {
     return this
   }
 
-  withInvalidPlateTooLong(value?: string) {
-    this._plate = value || this.chance.string({ length: 9 })
-    return this
-  }
-
-  withInvalidBrandTooLong(value?: string) {
-    this._brand = value || this.chance.string({ length: 256 })
-    return this
-  }
-
-  withInvalidColorTooLong(value?: string) {
-    this._color = value || this.chance.string({ length: 256 })
-    return this
-  }
-
   build(): TBuild {
     const vehicles = new Array(this.countObjs)
       .fill(undefined)
       .map((_, index) => {
         const vehicle = new VehicleAllocation({
-          vehicle_id: !this._vehicle_id
+          allocation_id: !this._allocation_id
             ? undefined
-            : this.callFactory(this._vehicle_id, index),
-          plate: this.callFactory(this._plate, index),
-          color: this.callFactory(this._color, index),
-          brand: this.callFactory(this._brand, index),
+            : this.callFactory(this._allocation_id, index),
+          driver_id: this.callFactory(this._driver_id, index),
+          vehicle_id: this.callFactory(this._vehicle_id, index),
+          reason: this.callFactory(this._reason, index),
+          start_date: this.callFactory(this._start_date, index),
+          ...(this._end_date && {
+            _end_date: this.callFactory(this._end_date, index),
+          }),
           ...(this._created_at && {
             created_at: this.callFactory(this._created_at, index),
           }),
@@ -109,16 +107,24 @@ export class VehicleAllocationFakeBuilder<TBuild = any> {
     return this.countObjs === 1 ? (vehicles[0] as any) : (vehicles as any)
   }
 
+  get allocation_id() {
+    return this.getValue('allocation_id')
+  }
+
   get vehicle_id() {
     return this.getValue('vehicle_id')
   }
 
-  get plate() {
-    return this.getValue('plate')
+  get driver_id() {
+    return this.getValue('driver_id')
   }
 
-  get brand() {
-    return this.getValue('brand')
+  get start_date() {
+    return this.getValue('start_date')
+  }
+
+  get end_date() {
+    return this.getValue('start_date')
   }
 
   get created_at() {
@@ -130,9 +136,16 @@ export class VehicleAllocationFakeBuilder<TBuild = any> {
   }
 
   private getValue(
-    prop: 'vehicle_id' | 'brand' | 'plate' | 'created_at' | 'updated_at',
+    prop:
+      | 'allocation_id'
+      | 'vehicle_id'
+      | 'driver_id'
+      | 'start_date'
+      | 'end_date'
+      | 'created_at'
+      | 'updated_at',
   ) {
-    const optional = ['vehicle_id', 'created_at', 'updated_at']
+    const optional = ['allocation_id', 'end_date', 'created_at', 'updated_at']
     const privateProp = `_${prop}` as keyof this
     if (!this[privateProp] && optional.includes(prop))
       throw new Error(`Property ${prop} not have a factory, use 'with' methods`)

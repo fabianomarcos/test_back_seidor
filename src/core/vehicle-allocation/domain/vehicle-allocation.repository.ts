@@ -12,6 +12,8 @@ import {
 export type VehicleAllocationFilter = {
   start_date?: Date
   end_date?: Date
+  driver_id?: string
+  vehicle_id?: string
 } | null
 
 export class VehicleAllocationSearchParams extends SearchParams<VehicleAllocationFilter> {

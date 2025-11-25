@@ -1,45 +1,54 @@
+import { VehicleId } from '@/core/vehicle/domain/vehicle.aggregate'
 import { AggregateRoot } from '../../shared/domain/aggregate-root'
 import { Uuid } from '../../shared/domain/value-objects/uuid.vo'
 import { VehicleAllocationFakeBuilder } from './vehicle-allocation-fake.builder'
 import { VehicleAllocationValidatorFactory } from './vehicle-allocation.validator'
+import { DriverId } from '@/core/driver/domain/driver.aggregate'
 
 export type VehicleAllocationConstructorProps = {
-  vehicle_id?: VehicleAllocationId
-  plate: string
-  brand: string
-  color: string
+  allocation_id?: VehicleAllocationId
+  vehicle_id: VehicleId
+  driver_id: DriverId
+  reason: string
+  start_date: Date
+  end_date?: Date
   created_at?: Date
   updated_at?: Date
 }
 
 export type VehicleAllocationCreateCommand = {
-  plate: string
-  brand: string
-  color: string
+  vehicle_id: VehicleId
+  driver_id: DriverId
+  reason: string
+  start_date: Date
 }
 
 export class VehicleAllocationId extends Uuid {}
 
 export class VehicleAllocation extends AggregateRoot {
-  vehicle_id: VehicleAllocationId
-  plate: string
-  brand: string
-  color: string
-  created_at: Date
-  updated_at: Date
+  allocation_id: VehicleAllocationId
+  vehicle_id: VehicleId
+  driver_id: DriverId
+  reason: string
+  start_date: Date
+  end_date?: Date
+  created_at?: Date
+  updated_at?: Date
 
   constructor(props: VehicleAllocationConstructorProps) {
     super()
-    this.vehicle_id = props.vehicle_id || new VehicleAllocationId()
-    this.brand = props.brand
-    this.plate = props.plate
-    this.color = props.color
+    this.allocation_id = props.allocation_id || new VehicleAllocationId()
+    this.vehicle_id = props.vehicle_id || new VehicleId()
+    this.driver_id = props.driver_id || new DriverId()
+    this.reason = props.reason
+    this.start_date = props.start_date || new Date()
+    this.end_date = props.end_date || new Date()
     this.created_at = props.created_at || new Date()
     this.updated_at = props.updated_at || new Date()
   }
 
   get entity_id() {
-    return this.vehicle_id
+    return this.allocation_id
   }
 
   static create(props: VehicleAllocationCreateCommand) {
@@ -48,19 +57,29 @@ export class VehicleAllocation extends AggregateRoot {
     return vehicle
   }
 
-  changeBrand(brand: string): void {
-    this.brand = brand
-    this.validate(['brand'])
+  changeReason(reason: string): void {
+    this.reason = reason
+    this.validate(['reason'])
   }
 
-  changePlate(plate: string): void {
-    this.plate = plate
-    this.validate(['plate'])
+  changeStartDate(start_date: Date): void {
+    this.start_date = start_date
+    this.validate(['start_date'])
   }
 
-  changeColor(color: string): void {
-    this.color = color
-    this.validate(['color'])
+  changeEndDate(end_date: Date): void {
+    this.end_date = end_date
+    this.validate(['end_date'])
+  }
+
+  changeDriverId(driver_id: DriverId): void {
+    this.driver_id = driver_id
+    this.validate(['driver_id'])
+  }
+
+  changeVehicleId(vehicle_id: VehicleId): void {
+    this.vehicle_id = vehicle_id
+    this.validate(['vehicle_id'])
   }
 
   validate(fields?: string[]) {
@@ -74,10 +93,12 @@ export class VehicleAllocation extends AggregateRoot {
 
   toJSON() {
     return {
+      allocation_id: this.allocation_id.value,
       vehicle_id: this.vehicle_id.value,
-      plate: this.plate,
-      brand: this.brand,
-      color: this.color,
+      driver_id: this.driver_id.value,
+      reason: this.reason,
+      start_date: this.start_date,
+      end_date: this.end_date,
       created_at: this.created_at,
       updated_at: this.updated_at,
     }
