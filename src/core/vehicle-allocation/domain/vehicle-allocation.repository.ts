@@ -80,7 +80,7 @@ export interface IVehicleAllocationRepository
   > {
   findOne: (
     input: IBodyFindOneAllocation,
-  ) => Promise<VehicleAllocationWithDriverAndVehicleOutput>
+  ) => Promise<VehicleAllocationWithDriverAndVehicleOutput | null>
 }
 
 export interface IBodyFindOneAllocation {

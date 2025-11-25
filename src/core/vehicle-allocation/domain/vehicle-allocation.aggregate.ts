@@ -37,7 +37,6 @@ export class VehicleAllocation extends AggregateRoot {
   updated_at?: Date
 
   constructor(props: VehicleAllocationConstructorProps) {
-    console.log('props: ', props)
     super()
     this.allocation_id = props.allocation_id || new VehicleAllocationId()
     this.vehicle_id = props.vehicle_id || new VehicleId()

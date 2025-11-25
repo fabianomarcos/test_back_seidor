@@ -53,10 +53,8 @@ export class CreateVehicleAllocationUseCase
       driver_id: new DriverId(input.driver_id),
       vehicle_id: new VehicleId(input.vehicle_id),
     })
-    console.log('entity: ', entity)
 
     if (entity.notification.hasErrors()) {
-      entity.notification.clearErrors()
       throw new EntityValidationError(entity.notification.toJSON())
     }
 
