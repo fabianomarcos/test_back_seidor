@@ -41,8 +41,8 @@ model Vehicle_Allocation {
 
   vehicle    Vehicle @relation(fields: [vehicle_id], references: [vehicle_id])
   vehicle_id String
-  driver     Driver? @relation(fields: [driver_id], references: [driver_id])
-  driver_id  String?
+  driver     Driver  @relation(fields: [driver_id], references: [driver_id])
+  driver_id  String
 
   @@index([vehicle_id])
   @@index([driver_id])

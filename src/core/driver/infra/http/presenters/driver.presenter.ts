@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer'
 
 import { DriverOutput } from '@/core/driver/application/use-cases/common/driver-output'
-import { ListDriversOutput } from '@/core/driver/application/use-cases/list/list-drivers.use-case'
+import { ListDriverOutput } from '@/core/driver/application/use-cases/list/list-drivers.use-case'
 import { CollectionPresenter } from '@/core/shared/infra/presenters/collection.presenter'
 
 export class DriverPresenter {
@@ -25,7 +25,7 @@ export class DriverCollectionPresenter extends CollectionPresenter<
 > {
   data: DriverPresenter[]
 
-  constructor(output: ListDriversOutput) {
+  constructor(output: ListDriverOutput) {
     const { items, ...paginationProps } = output
     super(paginationProps)
     this.data = items.map((item) => new DriverPresenter(item))
