@@ -6,7 +6,7 @@ export type UpdateVehicleAllocationInputConstructorProps = {
   vehicle_id?: string
   reason?: string
   start_date?: Date
-  end_date?: Date
+  end_date?: Date | null
 }
 
 export class UpdateVehicleAllocationInput {

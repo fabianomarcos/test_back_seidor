@@ -12,7 +12,7 @@ export class VehicleAllocationPresenter {
   @Transform(({ value }: { value: Date }) => value.toISOString())
   start_date: Date
   @Transform(({ value }: { value: Date }) => value.toISOString())
-  end_date: Date
+  end_date: Date | null
   @Transform(({ value }: { value: Date }) => value.toISOString())
   created_at: Date
   @Transform(({ value }: { value: Date }) => value.toISOString())

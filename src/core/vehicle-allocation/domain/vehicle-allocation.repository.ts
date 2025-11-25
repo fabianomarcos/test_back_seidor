@@ -8,10 +8,11 @@ import {
   VehicleAllocation,
   VehicleAllocationId,
 } from './vehicle-allocation.aggregate'
+import { VehicleAllocationWithDriverAndVehicleOutput } from '../application/use-cases/common/vehicle-allocation.output'
 
 export type VehicleAllocationFilter = {
   start_date?: Date
-  end_date?: Date
+  end_date?: Date | null
   driver_id?: string
   vehicle_id?: string
 } | null
@@ -31,7 +32,7 @@ export class VehicleAllocationSearchParams extends SearchParams<VehicleAllocatio
       filter?:
         | {
             start_date?: Date
-            end_date?: Date
+            end_date?: Date | null
           }
         | undefined
     } = {},
@@ -76,4 +77,14 @@ export interface IVehicleAllocationRepository
     VehicleAllocationFilter,
     VehicleAllocationSearchParams,
     VehicleAllocationSearchResult
-  > {}
+  > {
+  findOne: (
+    input: IBodyFindOneAllocation,
+  ) => Promise<VehicleAllocationWithDriverAndVehicleOutput>
+}
+
+export interface IBodyFindOneAllocation {
+  drive_id?: string
+  vehicle_id?: string
+  filter: { key: string; value: string | boolean | null | number }
+}

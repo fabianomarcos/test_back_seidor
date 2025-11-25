@@ -1,4 +1,6 @@
+import { DriverOutput } from '@/core/driver/application/use-cases/common/driver-output'
 import { VehicleAllocation } from '../../../domain/vehicle-allocation.aggregate'
+import { VehicleOutput } from '@/core/vehicle/application/use-cases/common/vehicle.output'
 
 export type VehicleAllocationOutput = {
   id: string
@@ -6,7 +8,7 @@ export type VehicleAllocationOutput = {
   vehicle_id: string
   reason: string
   start_date: Date
-  end_date: Date
+  end_date: Date | null
   created_at: Date
   updated_at: Date
 }
@@ -20,3 +22,10 @@ export class VehicleAllocationOutputMapper {
     } as VehicleAllocationOutput
   }
 }
+
+export type VehicleAllocationWithDriverAndVehicleOutput =
+  VehicleAllocationOutput & {
+    driver: DriverOutput
+    vehicle: VehicleOutput
+    allocation_id: string
+  }

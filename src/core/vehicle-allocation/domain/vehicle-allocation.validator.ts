@@ -17,7 +17,7 @@ export class VehicleAllocationRules {
 
   @IsDate({ groups: ['end_date'] })
   @IsEmpty({ groups: ['end_date'] })
-  end_date?: Date
+  end_date?: Date | null
 
   @MinLength(2, { groups: ['reason'] })
   @IsString({ groups: ['reason'] })

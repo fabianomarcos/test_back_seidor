@@ -15,11 +15,11 @@ export class UpdateVehicleInputWithoutId {
 
   @IsDate()
   @IsNotEmpty()
-  start_date: string
+  start_date: Date
 
   @IsDate()
   @IsNotEmpty()
-  end_date: string
+  end_date: Date | null
 }
 
 export class UpdateVehicleDto extends UpdateVehicleInputWithoutId {}

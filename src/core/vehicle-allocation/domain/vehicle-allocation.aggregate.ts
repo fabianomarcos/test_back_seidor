@@ -11,7 +11,7 @@ export type VehicleAllocationConstructorProps = {
   driver_id: DriverId
   reason: string
   start_date: Date
-  end_date?: Date
+  end_date?: Date | null
   created_at?: Date
   updated_at?: Date
 }
@@ -21,6 +21,7 @@ export type VehicleAllocationCreateCommand = {
   driver_id: DriverId
   reason: string
   start_date: Date
+  end_date?: Date | null
 }
 
 export class VehicleAllocationId extends Uuid {}
@@ -31,18 +32,19 @@ export class VehicleAllocation extends AggregateRoot {
   driver_id: DriverId
   reason: string
   start_date: Date
-  end_date?: Date
+  end_date?: Date | null
   created_at?: Date
   updated_at?: Date
 
   constructor(props: VehicleAllocationConstructorProps) {
+    console.log('props: ', props)
     super()
     this.allocation_id = props.allocation_id || new VehicleAllocationId()
     this.vehicle_id = props.vehicle_id || new VehicleId()
     this.driver_id = props.driver_id || new DriverId()
     this.reason = props.reason
     this.start_date = props.start_date || new Date()
-    this.end_date = props.end_date || new Date()
+    this.end_date = props.end_date || null
     this.created_at = props.created_at || new Date()
     this.updated_at = props.updated_at || new Date()
   }

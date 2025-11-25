@@ -1,29 +1,48 @@
-import { IsNotEmpty, IsString, validateSync } from 'class-validator'
+import {
+  IsDate,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  validateSync,
+} from 'class-validator'
 
 export type CreateDriveInputConstructorProps = {
-  brand: string
-  color: string
-  plate: string
+  reason: string
+  start_date: Date
+  end_date?: Date
+  driver_id: string
+  vehicle_id: string
 }
 
 export class CreateVehicleAllocationInput {
   @IsString()
   @IsNotEmpty()
-  brand: string
+  reason: string
 
   @IsString()
+  @IsUUID()
   @IsNotEmpty()
-  color: string
+  vehicle_id: string
 
   @IsString()
+  @IsUUID()
   @IsNotEmpty()
-  plate: string
+  driver_id: string
+
+  @IsDate()
+  @IsNotEmpty()
+  start_date: Date
+
+  @IsDate()
+  end_date?: Date | null
 
   constructor(props: CreateDriveInputConstructorProps) {
     if (!props) return
-    this.brand = props.brand
-    this.color = props.color
-    this.plate = props.plate
+    this.driver_id = props.driver_id
+    this.vehicle_id = props.vehicle_id
+    this.start_date = props.start_date
+    this.end_date = props.end_date as Date
+    this.reason = props.reason
   }
 }
 
