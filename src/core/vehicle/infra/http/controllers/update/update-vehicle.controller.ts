@@ -5,6 +5,7 @@ import { VehiclePresenter } from '../../presenters/vehicle.presenter'
 import { UpdateVehicleInput } from '@/core/vehicle/application/use-cases/update/update-vehicle.input'
 import { UpdateVehicleOutput } from '@/core/vehicle/application/use-cases/update/update-vehicle.use-case'
 import { UpdateVehicleDto } from '../../dtos/update-vehicle.dto'
+import { UniqueEntityError } from '@/core/shared/domain/errors/unique-entity.error'
 
 export class UpdateVehicleController {
   constructor(
@@ -18,7 +19,12 @@ export class UpdateVehicleController {
       const output = await this.usecase.execute({ ...body, id: params.id })
       const presenter = new VehiclePresenter(output)
       return response.status(200).json(presenter)
-    } catch (error) {
+    } catch (error: any) {
+      if (error.code === 'P2002') {
+        throw new UniqueEntityError(
+          `There is already a license plate with this value saved.`,
+        )
+      }
       console.error('error: ', error)
       next(error)
     }
