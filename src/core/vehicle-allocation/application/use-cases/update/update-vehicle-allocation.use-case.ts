@@ -13,6 +13,7 @@ import {
 } from '../common/vehicle-allocation.output'
 import { UpdateVehicleAllocationInput } from './update-vehicle-allocation.input'
 import { VehicleId } from '@/core/vehicle/domain/vehicle.aggregate'
+import { BadRequestError } from '@/core/shared/domain/errors/bad-request.error'
 
 export class UpdateVehicleAllocationUseCase
   implements
@@ -27,6 +28,32 @@ export class UpdateVehicleAllocationUseCase
     const allocation = await this.vehicleRepo.findById(vehicleAllocationId)
 
     if (!allocation) throw new NotFoundError(input.id, VehicleAllocation)
+
+    const vehicleInUse = await this.vehicleRepo.findOne({
+      ...(!input.end_date && { vehicle_id: input.vehicle_id }),
+      ...(!input.end_date && {
+        filter: {
+          key: 'end_date',
+          value: null,
+        },
+      }),
+    })
+
+    if (!vehicleInUse?.end_date && vehicleInUse)
+      throw new BadRequestError('Vehicle its allocate')
+
+    const driverInCourse = await this.vehicleRepo.findOne({
+      ...(!input.end_date && { driver_id: input.driver_id }),
+      ...(!input.end_date && {
+        filter: {
+          key: 'end_date',
+          value: null,
+        },
+      }),
+    })
+
+    if (!driverInCourse?.end_date && driverInCourse)
+      throw new BadRequestError('Driver its allocate')
 
     input.start_date && allocation.changeStartDate(input.start_date)
     input.end_date && allocation.changeEndDate(input.end_date)

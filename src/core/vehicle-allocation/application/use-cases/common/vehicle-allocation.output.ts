@@ -19,7 +19,6 @@ export type VehicleAllocationOutput = {
 
 export class VehicleAllocationOutputMapper {
   static toOutput(entity: VehicleAllocation): VehicleAllocationOutput {
-    console.log('entity: ', entity.driver)
     return {
       id: entity.id,
       driver: entity.driver,
