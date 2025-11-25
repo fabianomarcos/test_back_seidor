@@ -5,7 +5,7 @@ import { CreateDriverUseCase } from '@/core/driver/application/use-cases/create/
 import { DriverPrismaRepository } from '@/core/driver/infra/db/prisma/driver-prisma.repository'
 import { PrismaService } from '@/core/shared/infra/db/prisma/prisma.service'
 import { SearchDriverController } from '@/core/driver/infra/http/controllers/search/search-driver.controller'
-import { ListDriversUseCase } from '@/core/driver/application/use-cases/list/list-drivers.use-case'
+import { ListDriverUseCase } from '@/core/driver/application/use-cases/list/list-drivers.use-case'
 import { GetDriverByIdUseCase } from '@/core/driver/application/use-cases/get-by-id/get-driver-by-id.use-case'
 import { GetByIdDriverController } from '@/core/driver/infra/http/controllers/get-by-id/get-by-id-driver.controller'
 import { DeleteDriverController } from '@/core/driver/infra/http/controllers/delete/delete-driver.controller'
@@ -19,7 +19,7 @@ const prisma = PrismaService.getInstance()
 const driverRepository = new DriverPrismaRepository(prisma)
 
 const createUsecase = new CreateDriverUseCase(driverRepository)
-const listUsecase = new ListDriversUseCase(driverRepository)
+const listUsecase = new ListDriverUseCase(driverRepository)
 const getByIdUsecase = new GetDriverByIdUseCase(driverRepository)
 const deleteUsecase = new DeleteDriverUseCase(driverRepository)
 const updateUsecase = new UpdateDriverUseCase(driverRepository)
