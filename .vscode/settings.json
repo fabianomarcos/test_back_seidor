@@ -1,0 +1,11 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "baseUrlDev": "http://localhost:3000/api",
+            "baseUrlProd": "",
+            "email": "",
+            "password": ""
+        },
+    },
+    "prisma.pinToPrisma6": true
+}
